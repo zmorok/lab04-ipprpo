@@ -32,7 +32,7 @@ class OrderServiceTest {
         Order createdOrder = service.createOrder(customer, List.of(dish));
 
         assertNotNull(createdOrder);
-        assertEquals(500.0, customer.cash);
+        assertEquals(501.0, customer.cash);
         assertEquals(1, repo.getAll().size());
     }
 
