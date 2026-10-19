@@ -12,26 +12,20 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir('/projects/lab04') {
-                    echo "Building banking system for: ${params.BANK_NAME}"
-                    sh 'mvn compile'
-                }
+                echo "Building banking system for: ${params.BANK_NAME}"
+                sh 'mvn compile'
             }
         }
 
         stage('Test') {
             steps {
-                dir('/projects/lab04') {
-                    sh 'mvn test'
-                }
+                sh 'mvn test'
             }
         }
 
         stage('Package') {
             steps {
-                dir('/projects/lab04') {
-                    sh 'mvn package -DskipTests'
-                }
+                sh 'mvn package -DskipTests'
             }
         }
     }
