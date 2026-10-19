@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(
+            name: 'BANK_NAME',
+            defaultValue: 'DemoBank',
+            description: 'Название банка для текущего запуска Pipeline'
+        )
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                dir('/projects/lab04') {
+                    echo "Building banking system for: ${params.BANK_NAME}"
+                    sh 'mvn compile'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('/projects/lab04') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                dir('/projects/lab04') {
+                    sh 'mvn package -DskipTests'
+                }
+            }
+        }
+    }
+}
