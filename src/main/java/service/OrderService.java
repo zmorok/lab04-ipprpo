@@ -53,7 +53,7 @@ public class OrderService {
     }
 
     public String testMethod() {
-        StringBuilder sb = new StringBuilder("String var =");
+        StringBuilder sb = new StringBuilder("String var1 =");
 
         for (int i = 1; i < 5; i++) {
             sb.append(" ").append(i);
