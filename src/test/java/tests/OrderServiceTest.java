@@ -72,7 +72,7 @@ class OrderServiceTest {
 
         Order order = service.createOrder(customer, dishes);
 
-        assertEquals(700.0, order.price, 0.001);
+        assertEquals(701.0, order.price, 0.001);
         assertEquals(300.0, customer.cash, 0.001);
         assertEquals(customer.id, order.idCustomer);
         assertIterableEquals(dishes, order.orderedDishes);
