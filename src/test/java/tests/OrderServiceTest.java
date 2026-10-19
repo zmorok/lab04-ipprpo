@@ -61,4 +61,22 @@ class OrderServiceTest {
         assertEquals(1000.0, customer.cash);
         assertEquals(0, repo.getAll().size());
     }
+
+    @Test
+    void createOrder_WithSeveralDishes() {
+        Customer customer = new Customer(1, "Иванов", "Иван", "Иванович", "123", 1000.0);
+
+        Dish steak = new Dish(1, "Стейк", new String[]{}, 500.0);
+        Dish salad = new Dish(2, "Салат", new String[]{}, 200.0);
+        List<Dish> dishes = List.of(steak, salad);
+
+        Order order = service.createOrder(customer, dishes);
+
+        assertEquals(700.0, order.price, 0.001);
+        assertEquals(300.0, customer.cash, 0.001);
+        assertEquals(customer.id, order.idCustomer);
+        assertIterableEquals(dishes, order.orderedDishes);
+        assertEquals(1, repo.getAll().size());
+        assertSame(order, repo.getById(order.id));
+    }
 }
