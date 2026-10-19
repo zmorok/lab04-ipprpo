@@ -51,4 +51,14 @@ public class OrderService {
         repository.add(order);
         return order;
     }
+
+    public String testMethod() {
+        StringBuilder sb = new StringBuilder("String var =");
+
+        for (int i = 1; i < 5; i++) {
+            sb.append(" ").append(i);
+        }
+
+        return sb.toString();
+    }
 }
