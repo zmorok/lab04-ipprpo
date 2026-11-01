@@ -1,32 +1,54 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     parameters {
         string(
-            name: 'BANK_NAME',
-            defaultValue: 'DemoBank',
-            description: 'Название банка для текущего запуска Pipeline'
+            name: 'APP_NAME',
+            defaultValue: 'FoodDelivery',
+            description: 'Название приложения доставки еды'
         )
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build') {
             steps {
-                echo "Building banking system for: ${params.BANK_NAME}"
-                sh 'mvn compile'
+                echo "Building food delivery application: ${params.APP_NAME}"
+                sh 'mvn -B -ntp compile'
+            }
+        }
+
+        stage('Static Analysis') {
+            steps {
+                sh 'mvn -B -ntp checkstyle:check'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -B -ntp test'
             }
         }
 
         stage('Package') {
             steps {
-                sh 'mvn package -DskipTests'
+                sh 'mvn -B -ntp package -DskipTests'
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/logs/*.log', allowEmptyArchive: true
         }
     }
 }

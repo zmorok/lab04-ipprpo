@@ -1,0 +1,29 @@
+name: Lab 05 - Maven verification
+
+on:
+  push:
+    branches:
+      - main
+      - 'lab05/**'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Java 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '23'
+          cache: maven
+      - name: Build
+        run: mvn -B -ntp compile
+      - name: Static Analysis
+        run: mvn -B -ntp checkstyle:check
+      - name: Test
+        run: mvn -B -ntp test
+      - name: Package
+        run: mvn -B -ntp package -DskipTests
